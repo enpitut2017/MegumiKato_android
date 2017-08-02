@@ -1,25 +1,25 @@
-The application name is undefined.
+Android project (app name is undefined) by team MegumiKato.
 ====
-
-Overview
+We are developing this application for our course (enPiT) in University of Tsukuba.
+Our project's goal is making a device which prevents the user's bicycle from theft.
 
 ## Description
-We are developing this application for our course (enPiT) in University of Tsukuba.
-Our project's goal is making a device which prevents the user's bicycle from theft. 
+Writing.
 
 ## Demo
+Writing.
 
 ## VS. 
+Writing.
 
 ## Requirement
+Writing.
 
 ## Usage
+Writing.
 
 ## Install
-
-## Contribution
-
-## Licence
+Clone this repository and open this project with Android Studio.
 
 ## Author
 [ToshiyukiAndo](https://github.com/)
