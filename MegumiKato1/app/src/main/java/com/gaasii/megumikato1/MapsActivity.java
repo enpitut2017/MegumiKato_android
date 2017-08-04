@@ -2,6 +2,7 @@ package com.gaasii.megumikato1;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -16,7 +17,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MapsActivity extends AppCompatActivity
         implements
@@ -25,21 +32,54 @@ public class MapsActivity extends AppCompatActivity
         OnMapReadyCallback,
         ActivityCompat.OnRequestPermissionsResultCallback{
 
+
+    private final int GETHZ = 100000;
+    private final int COUNTMAX = 10000000;
+
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private boolean mPermissionDenied = false;
+    public Marker recentMarker;
+
+    private List<PositionData> pDatas = new ArrayList<PositionData>();
+
+    //private PositionData pdata;
+
+    final Handler handler = new Handler();
+    TimerTask task = new TimerTask() {
+        int count = 0;
+        @Override
+        public void run() {
+            // Timerのスレッド
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    // UIスレッド
+                    if (count > COUNTMAX) { // 5回実行したら終了
+                        cancel();
+                    }
+                    getPosition();
+                    count++;
+
+                }
+            });
+        }
+    };
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-    }
 
+        Timer t = new Timer();
+        t.scheduleAtFixedRate(task, 0, GETHZ);
+    }
 
     /**
      * Manipulates the map once available.
@@ -103,14 +143,15 @@ public class MapsActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResumeFragments() {
-        super.onResumeFragments();
+    protected void onResume() {
+        super.onResume();
         if (mPermissionDenied) {
             // Permission was not granted, display error dialog.
             showMissingPermissionError();
             mPermissionDenied = false;
         }
     }
+
 
     /**
      * Displays a dialog with error message explaining that the location permission is missing.
@@ -122,9 +163,20 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public void onMapClick(LatLng p){
-        Toast.makeText(this, "Map clicked", Toast.LENGTH_SHORT).show();
-        LatLng hyogo = new LatLng(35, 135);
-        mMap.addMarker(new MarkerOptions().position(hyogo).title("Marker in hyogo"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(hyogo));
+        //Toast.makeText(this, "Map clicked", Toast.LENGTH_SHORT).show();
+        //LatLng hyogo = new LatLng(35, 135);
+        //mMap.addMarker(new MarkerOptions().position(hyogo).title("Marker in hyogo"));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(hyogo));
+
+        getPosition();
+    }
+
+    public void setRecentMarker(Marker recentMarker){
+        this.recentMarker = recentMarker;
+    }
+
+    public void getPosition(){
+        HttpGetTask task = new HttpGetTask(this, mMap, pDatas);
+        task.execute();
     }
 }

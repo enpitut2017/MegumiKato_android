@@ -1,22 +1,11 @@
-Android project (app name is undefined) by team MegumiKato.
+加藤恵の自転車探し（仮） team 加藤恵
 ====
+
+## エレベータピッチ
 We are developing this application for our course (enPiT) in University of Tsukuba.
 Our project's goal is making a device which prevents the user's bicycle from theft.
 
-## Description
-Writing.
 
-## Demo
-Writing.
-
-## VS. 
-Writing.
-
-## Requirement
-Writing.
-
-## Usage
-Writing.
 
 ## Install
 Clone this repository and open this project with Android Studio.
