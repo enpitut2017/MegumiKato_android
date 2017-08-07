@@ -4,6 +4,7 @@
 ## エレベータピッチ
 We are developing this application for our course (enPiT) in University of Tsukuba.
 Our project's goal is making a device which prevents the user's bicycle from theft.
+For more details, please visit $https://github.com/enpitut2017/MegumiKato .
 
 
 

@@ -4,4 +4,13 @@
     <string name="permission_rationale_location">Location Permission Error.</string>
     <string name="permission_required_toast">Permission denied.</string>
     <string name="location_permission_denied">location_permission_denied</string>
+
+
+    <string name="menu_item1">早く取得</string>
+    <string name="menu_item2">遅く取得</string>
+    <string name="menu_item3">自転車までのルートを表示</string>
+    <string name="menu_item4">...</string>
+    <string name="menu_item5">...</string>
+    <string name="menu_item6">...</string>
+
 </resources>

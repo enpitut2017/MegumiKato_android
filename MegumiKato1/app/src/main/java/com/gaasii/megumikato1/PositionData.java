@@ -14,6 +14,7 @@ public class PositionData {
     private LatLng lat = new LatLng(0, 0);
     private String samples = new String("aaa");
     private MarkerOptions recentMarkerOptions = new MarkerOptions().position(lat).title(samples);
+    private String t_stamp = "";
 
     private Marker recentMarker;
 
@@ -23,6 +24,21 @@ public class PositionData {
         this.mMap = mMap;
     }
 
+    public String getT_stamp(){
+        return this.t_stamp;
+    }
+
+    public void setT_stamp(String t_stamp){
+        this.t_stamp = t_stamp;
+    }
+
+    public LatLng getLat(){
+        return this.lat;
+    }
+
+    public void setLat(LatLng lat){
+        this.lat = lat;
+    }
 
     public Marker getRecentMarker(){
         return this.recentMarker;
@@ -38,7 +54,5 @@ public class PositionData {
 
     public void setRecentMarkerOptions(MarkerOptions recentMarkerOptions){
         this.recentMarkerOptions = recentMarkerOptions;
-
-        this.recentMarker.setAlpha(0);
     }
 }

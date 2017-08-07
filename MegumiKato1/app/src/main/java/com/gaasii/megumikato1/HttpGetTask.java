@@ -43,7 +43,8 @@ public class HttpGetTask extends AsyncTask<Void, Void, String>{
     private List<PositionData> pDatas = new ArrayList<PositionData>();
 
     //private String mUrl = "https://www.yamagiwalab.jp/~yama/KPK/Hello.html";
-    private String mUrl = "http://192.168.11.143:3000/positions/getpos.json";
+    //private String mUrl = "http://192.168.11.143:3000/positions/getpos.json";
+    private String mUrl = "http://49.212.151.224/positions/getpos.json";
 
     public HttpGetTask(Activity parentActivity, GoogleMap myMap, List<PositionData> pDatas){
         this.mParentActivity = parentActivity;
@@ -82,7 +83,16 @@ public class HttpGetTask extends AsyncTask<Void, Void, String>{
             latitude = jsonArrayData.getJSONObject(0).getDouble("latitude");
             longitude = jsonArrayData.getJSONObject(0).getDouble("longitude");
 
+
+//            latitude = 35.6 + latitude%1;
+//            longitude = 139.5 + longitude%1;
+    //        gachiLat = atof(gpsLat_d) + atof(gpsLat_m1)/60.0 + atof(gpsLat_m2)/(10000.0*60.0);
+
+
+
+
             pinPoint = new LatLng(latitude, longitude);
+            pData.setLat(pinPoint);
             pData.setRecentMarkerOptions(new MarkerOptions().position(pinPoint));
 
         }catch (Exception e){
@@ -92,7 +102,20 @@ public class HttpGetTask extends AsyncTask<Void, Void, String>{
         pData.setRecentMarker(mMap.addMarker(pData.getRecentMarkerOptions()));
         pDatas.add(pData);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(pinPoint));
+        if(pDatas.size() > 2){
+            for(int i = 1; i < pDatas.size(); i++){
+                pDatas.get(i).getRecentMarker().setAlpha(0.1f*i);
+            }
+        }else{
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(pinPoint));
+        }
+
+        if (pDatas.size() > 10){
+            pDatas.get(0).getRecentMarker().remove();
+            pDatas.remove(0);
+        }
+
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(pinPoint));
         Log.d("Location Point", string);
         Log.d("Array_item_numerous", "numerous"+pDatas.size());
     }
